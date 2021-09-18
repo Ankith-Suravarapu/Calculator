@@ -1,2 +1,6 @@
 # Calculator
-Calculator in ASM 
+Calculator in ASM files
+
+it nand2tetris project. 
+
+We can understand after complecting the full course. 
