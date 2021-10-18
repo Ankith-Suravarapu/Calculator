@@ -1,0 +1,235 @@
+function Memory.init 0
+// let freeList = 2048;
+push constant 2048
+pop static 0
+// let freeList[0] = 0;
+push static 0
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let freeList[1] = 14336;
+push static 0
+push constant 1
+add
+push constant 14336
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return;
+push constant 0
+return
+function Memory.alloc 0
+// let needed = size + 2;
+push argument 0
+push constant 2
+add
+pop static 3
+// let freeSegment = freeList;
+push static 0
+pop static 1
+// let lastSegment = 0;
+push constant 0
+pop static 2
+// while (needed > freeSegment[1]) {
+label Memory.L0
+push static 3
+push constant 1
+push static 1
+add
+pop pointer 1
+push that 0
+gt
+not
+if-goto Memory.L1
+// let lastSegment = freeSegment;
+push static 1
+pop static 2
+// let freeSegment = freeSegment[0];
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 1
+// if (freeSegment = 0) {
+push static 1
+push constant 0
+eq
+if-goto Memory.L2
+goto Memory.L3
+label Memory.L2
+// return 0;
+push constant 0
+return
+label Memory.L3
+goto Memory.L0
+label Memory.L1
+// let available = freeSegment[1];
+push constant 1
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 4
+// if ((needed < available) & ((available - needed) > 2)) {
+push static 3
+push static 4
+lt
+push static 4
+push static 3
+sub
+push constant 2
+gt
+and
+if-goto Memory.L4
+goto Memory.L5
+label Memory.L4
+// let freeSegment[1] = needed;
+push static 1
+push constant 1
+add
+push static 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let freeSegment[needed] = freeSegment[0];
+push static 1
+push static 3
+add
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let freeSegment[needed + 1] = available - needed;
+push static 1
+push static 3
+push constant 1
+add
+add
+push static 4
+push static 3
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// if (lastSegment > 0) {
+push static 2
+push constant 0
+gt
+if-goto Memory.L6
+goto Memory.L7
+label Memory.L6
+// let lastSegment[0] = freeSegment + needed;
+push static 2
+push constant 0
+add
+push static 1
+push static 3
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Memory.L8
+label Memory.L7
+// let freeList = freeSegment + needed;
+push static 1
+push static 3
+add
+pop static 0
+label Memory.L8
+goto Memory.L9
+label Memory.L5
+// if (lastSegment > 0) {
+push static 2
+push constant 0
+gt
+if-goto Memory.L10
+goto Memory.L11
+label Memory.L10
+// let lastSegment[0] = freeSegment[0];
+push static 2
+push constant 0
+add
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Memory.L12
+label Memory.L11
+// let freeList = freeSegment[0];
+push constant 0
+push static 1
+add
+pop pointer 1
+push that 0
+pop static 0
+label Memory.L12
+label Memory.L9
+// let freeSegment = freeSegment + 2;
+push static 1
+push constant 2
+add
+pop static 1
+// while (size > 0) {
+label Memory.L13
+push argument 0
+push constant 0
+gt
+not
+if-goto Memory.L14
+// let size = size - 1;
+push argument 0
+push constant 1
+sub
+pop argument 0
+// let freeSegment[size] = 0;
+push static 1
+push argument 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Memory.L13
+label Memory.L14
+// return freeSegment;
+push static 1
+return
+function Memory.deAlloc 0
+// let o[-2] = freeList;
+push argument 0
+push constant 2
+neg
+add
+push static 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let freeList = o - 2;
+push argument 0
+push constant 2
+sub
+pop static 0
+// return;
+push constant 0
+return

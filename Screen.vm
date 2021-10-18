@@ -1,0 +1,855 @@
+function Screen.init 0
+// let color = true;
+push constant 0
+not
+pop static 1
+// let screen = 16384;
+push constant 16384
+pop static 0
+// let pixelMasks = Array.new(16);
+push constant 16
+call Array.new 1
+pop static 2
+// let pixelMasks[0] = 1;
+push static 2
+push constant 0
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[1] = 2;
+push static 2
+push constant 1
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[2] = 4;
+push static 2
+push constant 2
+add
+push constant 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[3] = 8;
+push static 2
+push constant 3
+add
+push constant 8
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[4] = 16;
+push static 2
+push constant 4
+add
+push constant 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[5] = 32;
+push static 2
+push constant 5
+add
+push constant 32
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[6] = 64;
+push static 2
+push constant 6
+add
+push constant 64
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[7] = 128;
+push static 2
+push constant 7
+add
+push constant 128
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[8] = 256;
+push static 2
+push constant 8
+add
+push constant 256
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[9] = 512;
+push static 2
+push constant 9
+add
+push constant 512
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[10] = 1024;
+push static 2
+push constant 10
+add
+push constant 1024
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[11] = 2048;
+push static 2
+push constant 11
+add
+push constant 2048
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[12] = 4096;
+push static 2
+push constant 12
+add
+push constant 4096
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[13] = 8192;
+push static 2
+push constant 13
+add
+push constant 8192
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[14] = 16384;
+push static 2
+push constant 14
+add
+push constant 16384
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let pixelMasks[15] = ~(32767);
+push static 2
+push constant 15
+add
+push constant 32767
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks = Array.new(16);
+push constant 16
+call Array.new 1
+pop static 3
+// let invMasks[0] = ~1;
+push static 3
+push constant 0
+add
+push constant 1
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[1] = ~2;
+push static 3
+push constant 1
+add
+push constant 2
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[2] = ~4;
+push static 3
+push constant 2
+add
+push constant 4
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[3] = ~8;
+push static 3
+push constant 3
+add
+push constant 8
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[4] = ~16;
+push static 3
+push constant 4
+add
+push constant 16
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[5] = ~32;
+push static 3
+push constant 5
+add
+push constant 32
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[6] = ~64;
+push static 3
+push constant 6
+add
+push constant 64
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[7] = ~128;
+push static 3
+push constant 7
+add
+push constant 128
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[8] = ~256;
+push static 3
+push constant 8
+add
+push constant 256
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[9] = ~512;
+push static 3
+push constant 9
+add
+push constant 512
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[10] = ~1024;
+push static 3
+push constant 10
+add
+push constant 1024
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[11] = ~2048;
+push static 3
+push constant 11
+add
+push constant 2048
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[12] = ~4096;
+push static 3
+push constant 12
+add
+push constant 4096
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[13] = ~8192;
+push static 3
+push constant 13
+add
+push constant 8192
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[14] = ~16384;
+push static 3
+push constant 14
+add
+push constant 16384
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let invMasks[15] = 32767;
+push static 3
+push constant 15
+add
+push constant 32767
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return;
+push constant 0
+return
+function Screen.clearScreen 1
+// let i = 8192;
+push constant 8192
+pop local 0
+// while (i > 0) {
+label Screen.L0
+push local 0
+push constant 0
+gt
+not
+if-goto Screen.L1
+// let i = i - 1;
+push local 0
+push constant 1
+sub
+pop local 0
+// let screen[i] = 0;
+push static 0
+push local 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto Screen.L0
+label Screen.L1
+// return;
+push constant 0
+return
+function Screen.setColor 0
+// let color = b;
+push argument 0
+pop static 1
+// return;
+push constant 0
+return
+function Screen.drawLine 10
+// let dx = x2 - x1;
+push argument 2
+push argument 0
+sub
+pop local 0
+// let dy = y2 - y1;
+push argument 3
+push argument 1
+sub
+pop local 1
+// let cy = dy + 1;
+push local 1
+push constant 1
+add
+pop local 5
+// if (dx = 0) {
+push local 0
+push constant 0
+eq
+if-goto Screen.L2
+goto Screen.L3
+label Screen.L2
+// if (y2 < y1) {
+push argument 3
+push argument 1
+lt
+if-goto Screen.L4
+goto Screen.L5
+label Screen.L4
+// let y1 = y2;
+push argument 3
+pop argument 1
+label Screen.L5
+// let offset = (x1 / 16);
+push argument 0
+push constant 16
+call Math.divide 2
+pop local 7
+// let xBit = x1 - (16 * offset);
+push argument 0
+push constant 16
+push local 7
+call Math.multiply 2
+sub
+pop local 8
+// let offset = (y1 * 32) + offset;
+push argument 1
+push constant 32
+call Math.multiply 2
+push local 7
+add
+pop local 7
+// if (color) {
+push static 1
+if-goto Screen.L6
+goto Screen.L7
+label Screen.L6
+// while (cy > 0) {
+label Screen.L8
+push local 5
+push constant 0
+gt
+not
+if-goto Screen.L9
+// let screen[offset] = screen[offset] | pixelMasks[xBit];
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 8
+push static 2
+add
+pop pointer 1
+push that 0
+or
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 32;
+push local 7
+push constant 32
+add
+pop local 7
+// let cy = cy - 1;
+push local 5
+push constant 1
+sub
+pop local 5
+goto Screen.L8
+label Screen.L9
+goto Screen.L10
+label Screen.L7
+// while (cy > 0) {
+label Screen.L11
+push local 5
+push constant 0
+gt
+not
+if-goto Screen.L12
+// let screen[offset] = screen[offset] & invMasks[xBit];
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 8
+push static 3
+add
+pop pointer 1
+push that 0
+and
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 32;
+push local 7
+push constant 32
+add
+pop local 7
+// let cy = cy - 1;
+push local 5
+push constant 1
+sub
+pop local 5
+goto Screen.L11
+label Screen.L12
+label Screen.L10
+// return;
+push constant 0
+return
+label Screen.L3
+// let cx = dx + 1;
+push local 0
+push constant 1
+add
+pop local 4
+// if (dy = 0) {
+push local 1
+push constant 0
+eq
+if-goto Screen.L13
+goto Screen.L14
+label Screen.L13
+// if (x2 < x1) {
+push argument 2
+push argument 0
+lt
+if-goto Screen.L15
+goto Screen.L16
+label Screen.L15
+// let x1 = x2;
+push argument 2
+pop argument 0
+label Screen.L16
+// let offset = (x1 / 16);
+push argument 0
+push constant 16
+call Math.divide 2
+pop local 7
+// let xBit = x1 - (16 * offset);
+push argument 0
+push constant 16
+push local 7
+call Math.multiply 2
+sub
+pop local 8
+// let offset = (y1 * 32) + offset;
+push argument 1
+push constant 32
+call Math.multiply 2
+push local 7
+add
+pop local 7
+// if (color) {
+push static 1
+if-goto Screen.L17
+goto Screen.L18
+label Screen.L17
+// if (xBit > 0) {
+push local 8
+push constant 0
+gt
+if-goto Screen.L19
+goto Screen.L20
+label Screen.L19
+// let cx = cx - (16 - xBit);
+push local 4
+push constant 16
+push local 8
+sub
+sub
+pop local 4
+// let bitMask = ~(pixelMasks[xBit - 1] - 1);
+push local 8
+push constant 1
+sub
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+not
+pop local 9
+// if (cx < 0) {
+push local 4
+push constant 0
+lt
+if-goto Screen.L21
+goto Screen.L22
+label Screen.L21
+// let cx = 16 + cx;
+push constant 16
+push local 4
+add
+pop local 4
+// let bitMask = bitMask & (pixelMasks[cx] - 1);
+push local 9
+push local 4
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+and
+pop local 9
+// let cx = 0;
+push constant 0
+pop local 4
+label Screen.L22
+// let screen[offset] = screen[offset] | bitMask;
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 9
+or
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 1;
+push local 7
+push constant 1
+add
+pop local 7
+label Screen.L20
+// while (cx > 16) {
+label Screen.L23
+push local 4
+push constant 16
+gt
+not
+if-goto Screen.L24
+// let screen[offset] = ~0;
+push static 0
+push local 7
+add
+push constant 0
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 1;
+push local 7
+push constant 1
+add
+pop local 7
+// let cx = cx - 16;
+push local 4
+push constant 16
+sub
+pop local 4
+goto Screen.L23
+label Screen.L24
+// if (cx > 0) {
+push local 4
+push constant 0
+gt
+if-goto Screen.L25
+goto Screen.L26
+label Screen.L25
+// let bitMask = pixelMasks[cx] - 1;
+push local 4
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+pop local 9
+// let screen[offset] = screen[offset] | bitMask;
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 9
+or
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label Screen.L26
+goto Screen.L27
+label Screen.L18
+// if (xBit > 0) {
+push local 8
+push constant 0
+gt
+if-goto Screen.L28
+goto Screen.L29
+label Screen.L28
+// let cx = cx - (16 - xBit);
+push local 4
+push constant 16
+push local 8
+sub
+sub
+pop local 4
+// let bitMask = ~(pixelMasks[xBit - 1] - 1);
+push local 8
+push constant 1
+sub
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+not
+pop local 9
+// if (cx < 0) {
+push local 4
+push constant 0
+lt
+if-goto Screen.L30
+goto Screen.L31
+label Screen.L30
+// let cx = 16 + cx;
+push constant 16
+push local 4
+add
+pop local 4
+// let bitMask = bitMask & (pixelMasks[cx] - 1);
+push local 9
+push local 4
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+and
+pop local 9
+// let cx = 0;
+push constant 0
+pop local 4
+label Screen.L31
+// let screen[offset] = screen[offset] & ~(bitMask);
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 9
+not
+and
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 1;
+push local 7
+push constant 1
+add
+pop local 7
+label Screen.L29
+// while (cx > 16) {
+label Screen.L32
+push local 4
+push constant 16
+gt
+not
+if-goto Screen.L33
+// let screen[offset] = 0;
+push static 0
+push local 7
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let offset = offset + 1;
+push local 7
+push constant 1
+add
+pop local 7
+// let cx = cx - 16;
+push local 4
+push constant 16
+sub
+pop local 4
+goto Screen.L32
+label Screen.L33
+// if (cx > 0) {
+push local 4
+push constant 0
+gt
+if-goto Screen.L34
+goto Screen.L35
+label Screen.L34
+// let bitMask = pixelMasks[cx] - 1;
+push local 4
+push static 2
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+pop local 9
+// let screen[offset] = screen[offset] & ~(bitMask);
+push static 0
+push local 7
+add
+push local 7
+push static 0
+add
+pop pointer 1
+push that 0
+push local 9
+not
+and
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+label Screen.L35
+label Screen.L27
+// return;
+push constant 0
+return
+label Screen.L14
+// return;
+push constant 0
+return
+function Screen.drawRectangle 0
+// while (~(y1 > y2)) {
+label Screen.L36
+push argument 1
+push argument 3
+gt
+not
+not
+if-goto Screen.L37
+// do Screen.drawLine(x1, y1, x2, y1);
+push argument 0
+push argument 1
+push argument 2
+push argument 1
+call Screen.drawLine 4
+pop temp 0
+// let y1 = y1 + 1;
+push argument 1
+push constant 1
+add
+pop argument 1
+goto Screen.L36
+label Screen.L37
+// return;
+push constant 0
+return

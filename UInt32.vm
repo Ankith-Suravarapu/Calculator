@@ -1,0 +1,867 @@
+function UInt32.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+// return this;
+push pointer 0
+return
+function UInt32.set 0
+push argument 0
+pop pointer 0
+// let i0 = lo;
+push argument 1
+pop this 0
+// let i1 = hi;
+push argument 2
+pop this 1
+// return;
+push constant 0
+return
+function UInt32.isNonzero 0
+push argument 0
+pop pointer 0
+// return ~((i0 | i1) = 0);
+push this 0
+push this 1
+or
+push constant 0
+eq
+not
+return
+function UInt32.copy 1
+push argument 0
+pop pointer 0
+// var Array p; let p = f;
+push argument 1
+pop local 0
+// let i0 = p[0];
+push constant 0
+push local 0
+add
+pop pointer 1
+push that 0
+pop this 0
+// let i1 = p[1];
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+pop this 1
+// return;
+push constant 0
+return
+function UInt32.complement 0
+push argument 0
+pop pointer 0
+// let i1 = ~i1;
+push this 1
+not
+pop this 1
+// let i0 = ~i0;
+push this 0
+not
+pop this 0
+// do UInt32.add32x16(this, 1, this);
+push pointer 0
+push constant 1
+push pointer 0
+call UInt32.add32x16 3
+pop temp 0
+// return;
+push constant 0
+return
+function UInt32.format 0
+push argument 0
+pop pointer 0
+// if ((i0 | (i1 & 127)) = 0) {
+push this 0
+push this 1
+push constant 127
+and
+or
+push constant 0
+eq
+if-goto UInt32.L0
+goto UInt32.L1
+label UInt32.L0
+// do output.appendChar(48);
+push argument 1
+push constant 48
+call String.appendChar 2
+pop temp 0
+// return;
+push constant 0
+return
+label UInt32.L1
+// let s = Array.new(10);
+push constant 10
+call Array.new 1
+pop static 1
+// let x = UInt32.new();
+call UInt32.new 0
+pop static 0
+// do x.copy(this);
+push static 0
+push pointer 0
+call UInt32.copy 2
+pop temp 0
+// let i = 0;
+push constant 0
+pop static 2
+// while ((i < 10) & x.isNonzero()) {
+label UInt32.L2
+push static 2
+push constant 10
+lt
+push static 0
+call UInt32.isNonzero 1
+and
+not
+if-goto UInt32.L3
+// let r = UInt32.div32x8(x, 10, x);
+push static 0
+push constant 10
+push static 0
+call UInt32.div32x8 3
+pop static 3
+// let s[i] = 48 + r;
+push static 1
+push static 2
+add
+push constant 48
+push static 3
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// inc i;
+push static 2
+push constant 1
+add
+pop static 2
+goto UInt32.L2
+label UInt32.L3
+// do x.dispose();
+push static 0
+call UInt32.dispose 1
+pop temp 0
+// while (i > 0) {
+label UInt32.L4
+push static 2
+push constant 0
+gt
+not
+if-goto UInt32.L5
+// let i = i - 1;
+push static 2
+push constant 1
+sub
+pop static 2
+// do output.appendChar(s[i]);
+push argument 1
+push static 2
+push static 1
+add
+pop pointer 1
+push that 0
+call String.appendChar 2
+pop temp 0
+goto UInt32.L4
+label UInt32.L5
+// do s.dispose();
+push static 1
+call Array.dispose 1
+pop temp 0
+// return;
+push constant 0
+return
+function UInt32.tryParse 1
+push argument 0
+pop pointer 0
+// let i0 = 0;
+push constant 0
+pop this 0
+// let i1 = 0;
+push constant 0
+pop this 1
+// let c = 48;
+push constant 48
+pop local 0
+// while ((startOffset < endOffset) & (c = 48)) {
+label UInt32.L6
+push argument 2
+push argument 3
+lt
+push local 0
+push constant 48
+eq
+and
+not
+if-goto UInt32.L7
+// let c = s.charAt(startOffset);
+push argument 1
+push argument 2
+call String.charAt 2
+pop local 0
+// if (c = 48) {
+push local 0
+push constant 48
+eq
+if-goto UInt32.L8
+goto UInt32.L9
+label UInt32.L8
+// inc startOffset;
+push argument 2
+push constant 1
+add
+pop argument 2
+label UInt32.L9
+goto UInt32.L6
+label UInt32.L7
+// while (startOffset < endOffset) {
+label UInt32.L10
+push argument 2
+push argument 3
+lt
+not
+if-goto UInt32.L11
+// let c = s.charAt(startOffset);
+push argument 1
+push argument 2
+call String.charAt 2
+pop local 0
+// inc startOffset;
+push argument 2
+push constant 1
+add
+pop argument 2
+// do UInt32.mul32x8(this, 10, this);
+push pointer 0
+push constant 10
+push pointer 0
+call UInt32.mul32x8 3
+pop temp 0
+// do UInt32.add32x16(this, c - 48, this);
+push pointer 0
+push local 0
+push constant 48
+sub
+push pointer 0
+call UInt32.add32x16 3
+pop temp 0
+goto UInt32.L10
+label UInt32.L11
+// return true;
+push constant 0
+not
+return
+function UInt32.dispose 0
+push argument 0
+pop pointer 0
+// do Memory.deAlloc(this);
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+// return;
+push constant 0
+return
+function UInt32.add32 0
+// let x = Bits.word0(a[0]) + Bits.word0(b[0]);
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push constant 0
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+add
+pop static 4
+// let carry = Bits.word1(x);
+push static 4
+call Bits.word1 1
+pop static 6
+// let y = Bits.word1(a[0]) + Bits.word1(b[0]) + carry;
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push constant 0
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+add
+push static 6
+add
+pop static 5
+// let carry = Bits.word1(y);
+push static 5
+call Bits.word1 1
+pop static 6
+// let out[0] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 0
+add
+push static 5
+call Bits.word0 1
+call Bits.lshift8 1
+push static 4
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x = Bits.word0(a[1]) + Bits.word0(b[1]) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push constant 1
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+add
+push static 6
+add
+pop static 4
+// let carry = Bits.word1(x);
+push static 4
+call Bits.word1 1
+pop static 6
+// let y = Bits.word1(a[1]) + Bits.word1(b[1]) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push constant 1
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+add
+push static 6
+add
+pop static 5
+// let carry = Bits.word1(y);
+push static 5
+call Bits.word1 1
+pop static 6
+// let out[1] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 1
+add
+push static 5
+call Bits.word0 1
+call Bits.lshift8 1
+push static 4
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return carry;
+push static 6
+return
+function UInt32.add32x16 0
+// let x = Bits.word0(a[0]) + Bits.word0(b);
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push argument 1
+call Bits.word0 1
+add
+pop static 7
+// let carry = Bits.word1(x);
+push static 7
+call Bits.word1 1
+pop static 9
+// let y = Bits.word1(a[0]) + Bits.word1(b) + carry;
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push argument 1
+call Bits.word1 1
+add
+push static 9
+add
+pop static 8
+// let carry = Bits.word1(y);
+push static 8
+call Bits.word1 1
+pop static 9
+// let out[0] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 0
+add
+push static 8
+call Bits.word0 1
+call Bits.lshift8 1
+push static 7
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x = Bits.word0(a[1]) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push static 9
+add
+pop static 7
+// let carry = Bits.word1(x);
+push static 7
+call Bits.word1 1
+pop static 9
+// let y = Bits.word1(a[1]) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push static 9
+add
+pop static 8
+// let carry = Bits.word1(y);
+push static 8
+call Bits.word1 1
+pop static 9
+// let out[1] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 1
+add
+push static 8
+call Bits.word0 1
+call Bits.lshift8 1
+push static 7
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return carry;
+push static 9
+return
+function UInt32.mul32 0
+// let x = UInt32.new();
+call UInt32.new 0
+pop static 10
+// let y = UInt32.new();
+call UInt32.new 0
+pop static 11
+// do UInt32.mul32x8(a, Bits.word0(b[0]), x);
+push argument 0
+push constant 0
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push static 10
+call UInt32.mul32x8 3
+pop temp 0
+// do y.copy(x);
+push static 11
+push static 10
+call UInt32.copy 2
+pop temp 0
+// do UInt32.mul32x8(a, Bits.word1(b[0]), x);
+push argument 0
+push constant 0
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push static 10
+call UInt32.mul32x8 3
+pop temp 0
+// let x[1] = Bits.lshift8(Bits.word0(x[1])) + Bits.word1(x[0]);
+push static 10
+push constant 1
+add
+push constant 1
+push static 10
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+call Bits.lshift8 1
+push constant 0
+push static 10
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x[0] = Bits.lshift8(Bits.word0(x[0]));
+push static 10
+push constant 0
+add
+push constant 0
+push static 10
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+call Bits.lshift8 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// do UInt32.add32(y, x, y);
+push static 11
+push static 10
+push static 11
+call UInt32.add32 3
+pop temp 0
+// do UInt32.mul32x8(a, Bits.word0(b[1]), x);
+push argument 0
+push constant 1
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push static 10
+call UInt32.mul32x8 3
+pop temp 0
+// let x[1] = x[0];
+push static 10
+push constant 1
+add
+push constant 0
+push static 10
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x[0] = 0;
+push static 10
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// do UInt32.add32(y, x, y);
+push static 11
+push static 10
+push static 11
+call UInt32.add32 3
+pop temp 0
+// do UInt32.mul32x8(a, Bits.word1(b[1]), x);
+push argument 0
+push constant 1
+push argument 1
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push static 10
+call UInt32.mul32x8 3
+pop temp 0
+// let x[1] = Bits.lshift8(Bits.word0(x[0]));
+push static 10
+push constant 1
+add
+push constant 0
+push static 10
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+call Bits.lshift8 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x[0] = 0;
+push static 10
+push constant 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// do UInt32.add32(y, x, y);
+push static 11
+push static 10
+push static 11
+call UInt32.add32 3
+pop temp 0
+// do out.copy(y);
+push argument 2
+push static 11
+call UInt32.copy 2
+pop temp 0
+// do x.dispose();
+push static 10
+call UInt32.dispose 1
+pop temp 0
+// do y.dispose();
+push static 11
+call UInt32.dispose 1
+pop temp 0
+// return;
+push constant 0
+return
+function UInt32.mul32x8 0
+// let b = Bits.word0(b);
+push argument 1
+call Bits.word0 1
+pop argument 1
+// let x = Bits.word0(a[0]) * b;
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push argument 1
+call Math.multiply 2
+pop static 12
+// let carry = Bits.word1(x);
+push static 12
+call Bits.word1 1
+pop static 14
+// let y = (Bits.word1(a[0]) * b) + carry;
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push argument 1
+call Math.multiply 2
+push static 14
+add
+pop static 13
+// let carry = Bits.word1(y);
+push static 13
+call Bits.word1 1
+pop static 14
+// let out[0] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 0
+add
+push static 13
+call Bits.word0 1
+call Bits.lshift8 1
+push static 12
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let x = (Bits.word0(a[1]) * b) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push argument 1
+call Math.multiply 2
+push static 14
+add
+pop static 12
+// let carry = Bits.word1(x);
+push static 12
+call Bits.word1 1
+pop static 14
+// let y = (Bits.word1(a[1]) * b) + carry;
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push argument 1
+call Math.multiply 2
+push static 14
+add
+pop static 13
+// let carry = Bits.word1(y);
+push static 13
+call Bits.word1 1
+pop static 14
+// let out[1] = Bits.lshift8(Bits.word0(y)) + Bits.word0(x);
+push argument 2
+push constant 1
+add
+push static 13
+call Bits.word0 1
+call Bits.lshift8 1
+push static 12
+call Bits.word0 1
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return carry;
+push static 14
+return
+function UInt32.div32x8 0
+// let b = Bits.word0(b);
+push argument 1
+call Bits.word0 1
+pop argument 1
+// let carry = Bits.word1(a[1]);
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+pop static 17
+// let y = carry / b;
+push static 17
+push argument 1
+call Math.divide 2
+pop static 16
+// let remainder = carry - (y * b);
+push static 17
+push static 16
+push argument 1
+call Math.multiply 2
+sub
+pop static 18
+// let carry = Bits.lshift8(remainder) + Bits.word0(a[1]);
+push static 18
+call Bits.lshift8 1
+push constant 1
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+add
+pop static 17
+// let x = carry / b;
+push static 17
+push argument 1
+call Math.divide 2
+pop static 15
+// let remainder = carry - (x * b);
+push static 17
+push static 15
+push argument 1
+call Math.multiply 2
+sub
+pop static 18
+// let out[1] = Bits.lshift8(y) + x;
+push argument 2
+push constant 1
+add
+push static 16
+call Bits.lshift8 1
+push static 15
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let carry = Bits.lshift8(remainder) + Bits.word1(a[0]);
+push static 18
+call Bits.lshift8 1
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+add
+pop static 17
+// let y = carry / b;
+push static 17
+push argument 1
+call Math.divide 2
+pop static 16
+// let remainder = carry - (y * b);
+push static 17
+push static 16
+push argument 1
+call Math.multiply 2
+sub
+pop static 18
+// let carry = Bits.lshift8(remainder) + Bits.word0(a[0]);
+push static 18
+call Bits.lshift8 1
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+add
+pop static 17
+// let x = carry / b;
+push static 17
+push argument 1
+call Math.divide 2
+pop static 15
+// let remainder = carry - (x * b);
+push static 17
+push static 15
+push argument 1
+call Math.multiply 2
+sub
+pop static 18
+// let out[0] = Bits.lshift8(y) + x;
+push argument 2
+push constant 0
+add
+push static 16
+call Bits.lshift8 1
+push static 15
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return remainder;
+push static 18
+return

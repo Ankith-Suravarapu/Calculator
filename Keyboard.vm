@@ -1,0 +1,100 @@
+function Keyboard.init 0
+// let keyboard = 24576;
+push constant 24576
+pop static 0
+// let buffer = String.new(64);
+push constant 64
+call String.new 1
+pop static 1
+// return;
+push constant 0
+return
+function Keyboard.readLine 1
+// do Output.printString(message);
+push argument 0
+call Output.printString 1
+pop temp 0
+// do buffer.clear();
+push static 1
+call String.clear 1
+pop temp 0
+// while (true) {
+label Keyboard.L0
+push constant 0
+not
+not
+if-goto Keyboard.L1
+// let c = 0;
+push constant 0
+pop local 0
+// while (c = 0) {
+label Keyboard.L2
+push local 0
+push constant 0
+eq
+not
+if-goto Keyboard.L3
+// let c = keyboard[0];
+push constant 0
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+goto Keyboard.L2
+label Keyboard.L3
+// while (keyboard[0] = c) {
+label Keyboard.L4
+push constant 0
+push static 0
+add
+pop pointer 1
+push that 0
+push local 0
+eq
+not
+if-goto Keyboard.L5
+goto Keyboard.L4
+label Keyboard.L5
+// if (c = 128) {
+push local 0
+push constant 128
+eq
+if-goto Keyboard.L6
+goto Keyboard.L7
+label Keyboard.L6
+// return buffer;
+push static 1
+return
+label Keyboard.L7
+// if (c = 129) {
+push local 0
+push constant 129
+eq
+if-goto Keyboard.L8
+goto Keyboard.L9
+label Keyboard.L8
+// do buffer.eraseLastChar();
+push static 1
+call String.eraseLastChar 1
+pop temp 0
+// do Output.backSpace();
+call Output.backSpace 0
+pop temp 0
+goto Keyboard.L10
+label Keyboard.L9
+// do buffer.appendChar(c);
+push static 1
+push local 0
+call String.appendChar 2
+pop temp 0
+// do Output.printChar(c);
+push local 0
+call Output.printChar 1
+pop temp 0
+label Keyboard.L10
+goto Keyboard.L0
+label Keyboard.L1
+// return 0;
+push constant 0
+return

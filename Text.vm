@@ -1,0 +1,56 @@
+function Text.drawTextAligned 0
+// if (alignment = 1) {
+push argument 3
+push constant 1
+eq
+if-goto Text.L0
+goto Text.L1
+label Text.L0
+// let col = col - (s.length() / 2);
+push argument 2
+push argument 0
+call String.length 1
+push constant 2
+call Math.divide 2
+sub
+pop argument 2
+goto Text.L2
+label Text.L1
+// if (alignment = 2) {
+push argument 3
+push constant 2
+eq
+if-goto Text.L3
+goto Text.L4
+label Text.L3
+// let col = col - s.length();
+push argument 2
+push argument 0
+call String.length 1
+sub
+pop argument 2
+label Text.L4
+label Text.L2
+// if (col < 0) {
+push argument 2
+push constant 0
+lt
+if-goto Text.L5
+goto Text.L6
+label Text.L5
+// let col = 0;
+push constant 0
+pop argument 2
+label Text.L6
+// do Output.moveCursor(row, col);
+push argument 1
+push argument 2
+call Output.moveCursor 2
+pop temp 0
+// do Output.printString(s);
+push argument 0
+call Output.printString 1
+pop temp 0
+// return;
+push constant 0
+return

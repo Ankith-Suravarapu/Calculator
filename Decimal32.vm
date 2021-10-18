@@ -1,0 +1,1198 @@
+function Decimal32.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+// return this;
+push pointer 0
+return
+function Decimal32.set 0
+push argument 0
+pop pointer 0
+// let i0 = significand[0];
+push constant 0
+push argument 3
+add
+pop pointer 1
+push that 0
+pop this 0
+// let i1 = significand[1];
+push constant 1
+push argument 3
+add
+pop pointer 1
+push that 0
+pop this 1
+// while (~((i1 & (~127)) = 0)) {
+label Decimal32.L0
+push this 1
+push constant 127
+not
+and
+push constant 0
+eq
+not
+not
+if-goto Decimal32.L1
+// inc exponent;
+push argument 2
+push constant 1
+add
+pop argument 2
+// do UInt32.div32x8(this, 10, this);
+push pointer 0
+push constant 10
+push pointer 0
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L0
+label Decimal32.L1
+// let i1 = i1 + (128 * (127 + exponent));
+push this 1
+push constant 128
+push constant 127
+push argument 2
+add
+call Math.multiply 2
+add
+pop this 1
+// if (sign) {
+push argument 1
+if-goto Decimal32.L2
+goto Decimal32.L3
+label Decimal32.L2
+// let i1 = i1 | (~32767);
+push this 1
+push constant 32767
+not
+or
+pop this 1
+label Decimal32.L3
+// return;
+push constant 0
+return
+function Decimal32.setInt 0
+push argument 0
+pop pointer 0
+// let i1 = (128 * (127 + exponent));
+push constant 128
+push constant 127
+push argument 2
+add
+call Math.multiply 2
+pop this 1
+// if (significand < 0) {
+push argument 1
+push constant 0
+lt
+if-goto Decimal32.L4
+goto Decimal32.L5
+label Decimal32.L4
+// let i1 = i1 | (~32767);
+push this 1
+push constant 32767
+not
+or
+pop this 1
+// let significand = -significand;
+push argument 1
+neg
+pop argument 1
+label Decimal32.L5
+// let i0 = significand;
+push argument 1
+pop this 0
+// return;
+push constant 0
+return
+function Decimal32.copy 0
+push argument 0
+pop pointer 0
+// let i0 = d[0];
+push constant 0
+push argument 1
+add
+pop pointer 1
+push that 0
+pop this 0
+// let i1 = d[1];
+push constant 1
+push argument 1
+add
+pop pointer 1
+push that 0
+pop this 1
+// return;
+push constant 0
+return
+function Decimal32.sign 0
+push argument 0
+pop pointer 0
+// return i1 < 0;
+push this 1
+push constant 0
+lt
+return
+function Decimal32.exponent 0
+push argument 0
+pop pointer 0
+// return ((i1 & 32640) / 128) - 127;
+push this 1
+push constant 32640
+and
+push constant 128
+call Math.divide 2
+push constant 127
+sub
+return
+function Decimal32.isZero 0
+push argument 0
+pop pointer 0
+// return ((i0 | (i1 & 127)) = 0);
+push this 0
+push this 1
+push constant 127
+and
+or
+push constant 0
+eq
+return
+function Decimal32.isNonzero 0
+push argument 0
+pop pointer 0
+// return ~((i0 | (i1 & 127)) = 0);
+push this 0
+push this 1
+push constant 127
+and
+or
+push constant 0
+eq
+not
+return
+function Decimal32.negate 0
+push argument 0
+pop pointer 0
+// if (i1 < 0) {
+push this 1
+push constant 0
+lt
+if-goto Decimal32.L6
+goto Decimal32.L7
+label Decimal32.L6
+// let i1 = i1 & 32767;
+push this 1
+push constant 32767
+and
+pop this 1
+goto Decimal32.L8
+label Decimal32.L7
+// let i1 = i1 | (~32767);
+push this 1
+push constant 32767
+not
+or
+pop this 1
+label Decimal32.L8
+// return;
+push constant 0
+return
+function Decimal32.normalize 0
+push argument 0
+pop pointer 0
+// if (isZero()) {
+push pointer 0
+call Decimal32.isZero 1
+if-goto Decimal32.L9
+goto Decimal32.L10
+label Decimal32.L9
+// return;
+push constant 0
+return
+label Decimal32.L10
+// let sign = sign();
+push pointer 0
+call Decimal32.sign 1
+pop static 0
+// let exponent = exponent();
+push pointer 0
+call Decimal32.exponent 1
+pop static 1
+// let i1 = i1 & 127;
+push this 1
+push constant 127
+and
+pop this 1
+// while (i1 < 11) {
+label Decimal32.L11
+push this 1
+push constant 11
+lt
+not
+if-goto Decimal32.L12
+// do UInt32.mul32x8(this, 10, this);
+push pointer 0
+push constant 10
+push pointer 0
+call UInt32.mul32x8 3
+pop temp 0
+// let exponent = exponent - 1;
+push static 1
+push constant 1
+sub
+pop static 1
+goto Decimal32.L11
+label Decimal32.L12
+// let i1 = i1 + (128 * (127 + exponent));
+push this 1
+push constant 128
+push constant 127
+push static 1
+add
+call Math.multiply 2
+add
+pop this 1
+// if (sign) {
+push static 0
+if-goto Decimal32.L13
+goto Decimal32.L14
+label Decimal32.L13
+// let i1 = i1 | (~32767);
+push this 1
+push constant 32767
+not
+or
+pop this 1
+label Decimal32.L14
+// return;
+push constant 0
+return
+function Decimal32.significand 1
+push argument 0
+pop pointer 0
+// var UInt32 in; let in = UInt32.new();
+call UInt32.new 0
+pop local 0
+// do in.set(i0, i1 & 127);
+push local 0
+push this 0
+push this 1
+push constant 127
+and
+call UInt32.set 3
+pop temp 0
+// return in;
+push local 0
+return
+function Decimal32.format 0
+push argument 0
+pop pointer 0
+// if (isZero()) {
+push pointer 0
+call Decimal32.isZero 1
+if-goto Decimal32.L15
+goto Decimal32.L16
+label Decimal32.L15
+// do output.appendChar(48);
+push argument 1
+push constant 48
+call String.appendChar 2
+pop temp 0
+// return;
+push constant 0
+return
+label Decimal32.L16
+// let s = Array.new(7);
+push constant 7
+call Array.new 1
+pop static 3
+// let x = significand();
+push pointer 0
+call Decimal32.significand 1
+pop static 2
+// let i = 0;
+push constant 0
+pop static 5
+// while ((i < 7) & x.isNonzero()) {
+label Decimal32.L17
+push static 5
+push constant 7
+lt
+push static 2
+call UInt32.isNonzero 1
+and
+not
+if-goto Decimal32.L18
+// let remainder = UInt32.div32x8(x, 10, x);
+push static 2
+push constant 10
+push static 2
+call UInt32.div32x8 3
+pop static 6
+// let s[i] = 48 + remainder;
+push static 3
+push static 5
+add
+push constant 48
+push static 6
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// inc i;
+push static 5
+push constant 1
+add
+pop static 5
+goto Decimal32.L17
+label Decimal32.L18
+// do x.dispose();
+push static 2
+call UInt32.dispose 1
+pop temp 0
+// if (sign()) {
+push pointer 0
+call Decimal32.sign 1
+if-goto Decimal32.L19
+goto Decimal32.L20
+label Decimal32.L19
+// do output.appendChar(45);
+push argument 1
+push constant 45
+call String.appendChar 2
+pop temp 0
+label Decimal32.L20
+// let exponent = exponent();
+push pointer 0
+call Decimal32.exponent 1
+pop static 7
+// let sd = i + exponent;
+push static 5
+push static 7
+add
+pop static 8
+// let sn = false;
+push constant 0
+pop static 4
+// if ((exponent < -7) | (sd > 7)) {
+push static 7
+push constant 7
+neg
+lt
+push static 8
+push constant 7
+gt
+or
+if-goto Decimal32.L21
+goto Decimal32.L22
+label Decimal32.L21
+// let sn = true;
+push constant 0
+not
+pop static 4
+// let exponent = sd - 1;
+push static 8
+push constant 1
+sub
+pop static 7
+// let sd = 1;
+push constant 1
+pop static 8
+label Decimal32.L22
+// if (sd < 0) {
+push static 8
+push constant 0
+lt
+if-goto Decimal32.L23
+goto Decimal32.L24
+label Decimal32.L23
+// do output.appendChar(48);
+push argument 1
+push constant 48
+call String.appendChar 2
+pop temp 0
+// do output.appendChar(46);
+push argument 1
+push constant 46
+call String.appendChar 2
+pop temp 0
+// while (sd < 0) {
+label Decimal32.L25
+push static 8
+push constant 0
+lt
+not
+if-goto Decimal32.L26
+// do output.appendChar(48);
+push argument 1
+push constant 48
+call String.appendChar 2
+pop temp 0
+// inc sd;
+push static 8
+push constant 1
+add
+pop static 8
+goto Decimal32.L25
+label Decimal32.L26
+// let sd = -1;
+push constant 1
+neg
+pop static 8
+label Decimal32.L24
+// while (i > 0) {
+label Decimal32.L27
+push static 5
+push constant 0
+gt
+not
+if-goto Decimal32.L28
+// if (sd = 0) {
+push static 8
+push constant 0
+eq
+if-goto Decimal32.L29
+goto Decimal32.L30
+label Decimal32.L29
+// do output.appendChar(46);
+push argument 1
+push constant 46
+call String.appendChar 2
+pop temp 0
+label Decimal32.L30
+// let sd = sd - 1;
+push static 8
+push constant 1
+sub
+pop static 8
+// dec i;
+push static 5
+push constant 1
+neg
+add
+pop static 5
+// do output.appendChar(s[i]);
+push argument 1
+push static 5
+push static 3
+add
+pop pointer 1
+push that 0
+call String.appendChar 2
+pop temp 0
+goto Decimal32.L27
+label Decimal32.L28
+// while (sd > 0) {
+label Decimal32.L31
+push static 8
+push constant 0
+gt
+not
+if-goto Decimal32.L32
+// do output.appendChar(48);
+push argument 1
+push constant 48
+call String.appendChar 2
+pop temp 0
+// let sd = sd - 1;
+push static 8
+push constant 1
+sub
+pop static 8
+goto Decimal32.L31
+label Decimal32.L32
+// if (sn) {
+push static 4
+if-goto Decimal32.L33
+goto Decimal32.L34
+label Decimal32.L33
+// do output.appendChar(69); // e
+push argument 1
+push constant 69
+call String.appendChar 2
+pop temp 0
+// if (exponent < 0) {
+push static 7
+push constant 0
+lt
+if-goto Decimal32.L35
+goto Decimal32.L36
+label Decimal32.L35
+// do output.appendChar(45);
+push argument 1
+push constant 45
+call String.appendChar 2
+pop temp 0
+// let exponent = -exponent;
+push static 7
+neg
+pop static 7
+label Decimal32.L36
+// while (~(exponent = 0)) {
+label Decimal32.L37
+push static 7
+push constant 0
+eq
+not
+not
+if-goto Decimal32.L38
+// let sd = exponent / 10;
+push static 7
+push constant 10
+call Math.divide 2
+pop static 8
+// let remainder = exponent - (sd * 10);
+push static 7
+push static 8
+push constant 10
+call Math.multiply 2
+sub
+pop static 6
+// let exponent = sd;
+push static 8
+pop static 7
+// let s[i] = 48 + remainder;
+push static 3
+push static 5
+add
+push constant 48
+push static 6
+add
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// inc i;
+push static 5
+push constant 1
+add
+pop static 5
+goto Decimal32.L37
+label Decimal32.L38
+// while (i > 0) {
+label Decimal32.L39
+push static 5
+push constant 0
+gt
+not
+if-goto Decimal32.L40
+// dec i;
+push static 5
+push constant 1
+neg
+add
+pop static 5
+// do output.appendChar(s[i]);
+push argument 1
+push static 5
+push static 3
+add
+pop pointer 1
+push that 0
+call String.appendChar 2
+pop temp 0
+goto Decimal32.L39
+label Decimal32.L40
+label Decimal32.L34
+// return;
+push constant 0
+return
+function Decimal32.tryParse 0
+push argument 0
+pop pointer 0
+// let i0 = 0;
+push constant 0
+pop this 0
+// let i1 = 0;
+push constant 0
+pop this 1
+// let c = 48;
+push constant 48
+pop static 11
+// while ((startOffset < endOffset) & (c = 48)) {
+label Decimal32.L41
+push argument 2
+push argument 3
+lt
+push static 11
+push constant 48
+eq
+and
+not
+if-goto Decimal32.L42
+// let c = s.charAt(startOffset);
+push argument 1
+push argument 2
+call String.charAt 2
+pop static 11
+// if (c = 48) {
+push static 11
+push constant 48
+eq
+if-goto Decimal32.L43
+goto Decimal32.L44
+label Decimal32.L43
+// inc startOffset;
+push argument 2
+push constant 1
+add
+pop argument 2
+label Decimal32.L44
+goto Decimal32.L41
+label Decimal32.L42
+// let hasFraction = false;
+push constant 0
+pop static 10
+// let decimalExponent = 0;
+push constant 0
+pop static 9
+// while (startOffset < endOffset) {
+label Decimal32.L45
+push argument 2
+push argument 3
+lt
+not
+if-goto Decimal32.L46
+// let c = s.charAt(startOffset);
+push argument 1
+push argument 2
+call String.charAt 2
+pop static 11
+// inc startOffset;
+push argument 2
+push constant 1
+add
+pop argument 2
+// if (c = 46) {
+push static 11
+push constant 46
+eq
+if-goto Decimal32.L47
+goto Decimal32.L48
+label Decimal32.L47
+// if (hasFraction) {
+push static 10
+if-goto Decimal32.L49
+goto Decimal32.L50
+label Decimal32.L49
+// return false;
+push constant 0
+return
+label Decimal32.L50
+// let hasFraction = true;
+push constant 0
+not
+pop static 10
+goto Decimal32.L51
+label Decimal32.L48
+// if (i1 < 11) {
+push this 1
+push constant 11
+lt
+if-goto Decimal32.L52
+goto Decimal32.L53
+label Decimal32.L52
+// do UInt32.mul32x8(this, 10, this);
+push pointer 0
+push constant 10
+push pointer 0
+call UInt32.mul32x8 3
+pop temp 0
+// do UInt32.add32x16(this, c - 48, this);
+push pointer 0
+push static 11
+push constant 48
+sub
+push pointer 0
+call UInt32.add32x16 3
+pop temp 0
+// if (hasFraction) {
+push static 10
+if-goto Decimal32.L54
+goto Decimal32.L55
+label Decimal32.L54
+// let decimalExponent = decimalExponent - 1;
+push static 9
+push constant 1
+sub
+pop static 9
+label Decimal32.L55
+goto Decimal32.L56
+label Decimal32.L53
+// if (~hasFraction) {
+push static 10
+not
+if-goto Decimal32.L57
+goto Decimal32.L58
+label Decimal32.L57
+// inc decimalExponent;
+push static 9
+push constant 1
+add
+pop static 9
+label Decimal32.L58
+label Decimal32.L56
+label Decimal32.L51
+goto Decimal32.L45
+label Decimal32.L46
+// let i1 = (i1 & 127) + (128 * (127 + decimalExponent));
+push this 1
+push constant 127
+and
+push constant 128
+push constant 127
+push static 9
+add
+call Math.multiply 2
+add
+pop this 1
+// return true;
+push constant 0
+not
+return
+function Decimal32.dispose 0
+push argument 0
+pop pointer 0
+// do Memory.deAlloc(this);
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+// return;
+push constant 0
+return
+function Decimal32.add 0
+// let signA = a.sign();
+push argument 0
+call Decimal32.sign 1
+pop static 12
+// let signB = b.sign();
+push argument 1
+call Decimal32.sign 1
+pop static 13
+// let significandA = a.significand();
+push argument 0
+call Decimal32.significand 1
+pop static 14
+// let significandB = b.significand();
+push argument 1
+call Decimal32.significand 1
+pop static 15
+// let exponentA = a.exponent();
+push argument 0
+call Decimal32.exponent 1
+pop static 16
+// let exponentB = b.exponent();
+push argument 1
+call Decimal32.exponent 1
+pop static 17
+// if (a.isZero()) {
+push argument 0
+call Decimal32.isZero 1
+if-goto Decimal32.L59
+goto Decimal32.L60
+label Decimal32.L59
+// do out.copy(b);
+push argument 2
+push argument 1
+call Decimal32.copy 2
+pop temp 0
+// return;
+push constant 0
+return
+label Decimal32.L60
+// if (b.isZero()) {
+push argument 1
+call Decimal32.isZero 1
+if-goto Decimal32.L61
+goto Decimal32.L62
+label Decimal32.L61
+// do out.copy(a);
+push argument 2
+push argument 0
+call Decimal32.copy 2
+pop temp 0
+// return;
+push constant 0
+return
+label Decimal32.L62
+// while (exponentB < exponentA) {
+label Decimal32.L63
+push static 17
+push static 16
+lt
+not
+if-goto Decimal32.L64
+// inc exponentB;
+push static 17
+push constant 1
+add
+pop static 17
+// do UInt32.div32x8(significandB, 10, significandB);
+push static 15
+push constant 10
+push static 15
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L63
+label Decimal32.L64
+// while (exponentA < exponentB) {
+label Decimal32.L65
+push static 16
+push static 17
+lt
+not
+if-goto Decimal32.L66
+// inc exponentA;
+push static 16
+push constant 1
+add
+pop static 16
+// do UInt32.div32x8(significandA, 10, significandA);
+push static 14
+push constant 10
+push static 14
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L65
+label Decimal32.L66
+// if (signA) {
+push static 12
+if-goto Decimal32.L67
+goto Decimal32.L68
+label Decimal32.L67
+// do significandA.complement();
+push static 14
+call UInt32.complement 1
+pop temp 0
+label Decimal32.L68
+// if (signB) {
+push static 13
+if-goto Decimal32.L69
+goto Decimal32.L70
+label Decimal32.L69
+// do significandB.complement();
+push static 15
+call UInt32.complement 1
+pop temp 0
+label Decimal32.L70
+// do UInt32.add32(significandA, significandB, significandA);
+push static 14
+push static 15
+push static 14
+call UInt32.add32 3
+pop temp 0
+// if (significandA[1] < 0) {
+push constant 1
+push static 14
+add
+pop pointer 1
+push that 0
+push constant 0
+lt
+if-goto Decimal32.L71
+goto Decimal32.L72
+label Decimal32.L71
+// let signA = true;
+push constant 0
+not
+pop static 12
+// do significandA.complement();
+push static 14
+call UInt32.complement 1
+pop temp 0
+goto Decimal32.L73
+label Decimal32.L72
+// let signA = false;
+push constant 0
+pop static 12
+label Decimal32.L73
+// do out.set(signA, exponentA, significandA);
+push argument 2
+push static 12
+push static 16
+push static 14
+call Decimal32.set 4
+pop temp 0
+// do significandA.dispose();
+push static 14
+call UInt32.dispose 1
+pop temp 0
+// do significandB.dispose();
+push static 15
+call UInt32.dispose 1
+pop temp 0
+// return;
+push constant 0
+return
+function Decimal32.mul 0
+// if (a.isZero() | b.isZero()) {
+push argument 0
+call Decimal32.isZero 1
+push argument 1
+call Decimal32.isZero 1
+or
+if-goto Decimal32.L74
+goto Decimal32.L75
+label Decimal32.L74
+// do out.setInt(0, 0);
+push argument 2
+push constant 0
+push constant 0
+call Decimal32.setInt 3
+pop temp 0
+// return;
+push constant 0
+return
+label Decimal32.L75
+// let signA = a.sign();
+push argument 0
+call Decimal32.sign 1
+pop static 19
+// let signB = b.sign();
+push argument 1
+call Decimal32.sign 1
+pop static 20
+// let significandA = a.significand();
+push argument 0
+call Decimal32.significand 1
+pop static 21
+// let significandB = b.significand();
+push argument 1
+call Decimal32.significand 1
+pop static 22
+// let exponentA = a.exponent();
+push argument 0
+call Decimal32.exponent 1
+pop static 23
+// let exponentB = b.exponent();
+push argument 1
+call Decimal32.exponent 1
+pop static 24
+// while (Bits.word0(significandA[1]) > 0) {
+label Decimal32.L76
+push constant 1
+push static 21
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push constant 0
+gt
+not
+if-goto Decimal32.L77
+// inc exponentA;
+push static 23
+push constant 1
+add
+pop static 23
+// do UInt32.div32x8(significandA, 10, significandA);
+push static 21
+push constant 10
+push static 21
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L76
+label Decimal32.L77
+// while (Bits.word0(significandB[1]) > 0) {
+label Decimal32.L78
+push constant 1
+push static 22
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push constant 0
+gt
+not
+if-goto Decimal32.L79
+// inc exponentB;
+push static 24
+push constant 1
+add
+pop static 24
+// do UInt32.div32x8(significandB, 10, significandB);
+push static 22
+push constant 10
+push static 22
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L78
+label Decimal32.L79
+// do UInt32.mul32(significandA, significandB, significandA);
+push static 21
+push static 22
+push static 21
+call UInt32.mul32 3
+pop temp 0
+// let exponentA = exponentA + exponentB;
+push static 23
+push static 24
+add
+pop static 23
+// if (signA = signB) {
+push static 19
+push static 20
+eq
+if-goto Decimal32.L80
+goto Decimal32.L81
+label Decimal32.L80
+// let signA = false;
+push constant 0
+pop static 19
+goto Decimal32.L82
+label Decimal32.L81
+// let signA = true;
+push constant 0
+not
+pop static 19
+label Decimal32.L82
+// do out.set(signA, exponentA, significandA);
+push argument 2
+push static 19
+push static 23
+push static 21
+call Decimal32.set 4
+pop temp 0
+// do significandA.dispose();
+push static 21
+call UInt32.dispose 1
+pop temp 0
+// do significandB.dispose();
+push static 22
+call UInt32.dispose 1
+pop temp 0
+// return;
+push constant 0
+return
+function Decimal32.div 0
+// if (a.isZero() | b.isZero()) {
+push argument 0
+call Decimal32.isZero 1
+push argument 1
+call Decimal32.isZero 1
+or
+if-goto Decimal32.L83
+goto Decimal32.L84
+label Decimal32.L83
+// do out.setInt(0, 0);
+push argument 2
+push constant 0
+push constant 0
+call Decimal32.setInt 3
+pop temp 0
+// return;
+push constant 0
+return
+label Decimal32.L84
+// let signA = a.sign();
+push argument 0
+call Decimal32.sign 1
+pop static 25
+// let signB = b.sign();
+push argument 1
+call Decimal32.sign 1
+pop static 26
+// let significandA = a.significand();
+push argument 0
+call Decimal32.significand 1
+pop static 27
+// let significandB = b.significand();
+push argument 1
+call Decimal32.significand 1
+pop static 28
+// let exponentA = a.exponent();
+push argument 0
+call Decimal32.exponent 1
+pop static 29
+// let exponentB = b.exponent();
+push argument 1
+call Decimal32.exponent 1
+pop static 30
+// while ((Bits.word0(significandB[1]) > 0) | (Bits.word1(significandB[0]) > 0)) {
+label Decimal32.L85
+push constant 1
+push static 28
+add
+pop pointer 1
+push that 0
+call Bits.word0 1
+push constant 0
+gt
+push constant 0
+push static 28
+add
+pop pointer 1
+push that 0
+call Bits.word1 1
+push constant 0
+gt
+or
+not
+if-goto Decimal32.L86
+// inc exponentB;
+push static 30
+push constant 1
+add
+pop static 30
+// do UInt32.div32x8(significandB, 10, significandB);
+push static 28
+push constant 10
+push static 28
+call UInt32.div32x8 3
+pop temp 0
+goto Decimal32.L85
+label Decimal32.L86
+// do UInt32.div32x8(significandA, significandB[0], significandA);
+push static 27
+push constant 0
+push static 28
+add
+pop pointer 1
+push that 0
+push static 27
+call UInt32.div32x8 3
+pop temp 0
+// let exponentA = exponentA - exponentB;
+push static 29
+push static 30
+sub
+pop static 29
+// if (signA = signB) {
+push static 25
+push static 26
+eq
+if-goto Decimal32.L87
+goto Decimal32.L88
+label Decimal32.L87
+// let signA = false;
+push constant 0
+pop static 25
+goto Decimal32.L89
+label Decimal32.L88
+// let signA = true;
+push constant 0
+not
+pop static 25
+label Decimal32.L89
+// do out.set(signA, exponentA, significandA);
+push argument 2
+push static 25
+push static 29
+push static 27
+call Decimal32.set 4
+pop temp 0
+// do out.normalize();
+push argument 2
+call Decimal32.normalize 1
+pop temp 0
+// do significandA.dispose();
+push static 27
+call UInt32.dispose 1
+pop temp 0
+// do significandB.dispose();
+push static 28
+call UInt32.dispose 1
+pop temp 0
+// return;
+push constant 0
+return

@@ -1,0 +1,78 @@
+function Sys.init 0
+// do Memory.init();
+call Memory.init 0
+pop temp 0
+// do Math.init();
+call Math.init 0
+pop temp 0
+// do Screen.init();
+call Screen.init 0
+pop temp 0
+// do Output.init();
+call Output.init 0
+pop temp 0
+// do Keyboard.init();
+call Keyboard.init 0
+pop temp 0
+// do Main.main();
+call Main.main 0
+pop temp 0
+// do Sys.halt();
+call Sys.halt 0
+pop temp 0
+// return;
+push constant 0
+return
+function Sys.halt 0
+// while (true) {}
+label Sys.L0
+push constant 0
+not
+not
+if-goto Sys.L1
+goto Sys.L0
+label Sys.L1
+// return;
+push constant 0
+return
+function Sys.wait 0
+// let duration = duration * 10;
+push argument 0
+push constant 10
+call Math.multiply 2
+pop argument 0
+// while (duration > 0) {
+label Sys.L2
+push argument 0
+push constant 0
+gt
+not
+if-goto Sys.L3
+// let duration = duration - 1;
+push argument 0
+push constant 1
+sub
+pop argument 0
+goto Sys.L2
+label Sys.L3
+// return;
+push constant 0
+return
+function Sys.error 0
+// do Output.printString("ERR");
+push constant 3
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+// do Sys.halt();
+call Sys.halt 0
+pop temp 0
+// return;
+push constant 0
+return

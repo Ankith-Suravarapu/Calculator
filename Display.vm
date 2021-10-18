@@ -1,0 +1,476 @@
+function Display.setPosition 0
+// let displayTop = top;
+push argument 1
+pop static 0
+// let displayLeft = left;
+push argument 0
+pop static 1
+// let displayWidth = width;
+push argument 2
+pop static 2
+// let displayHeight = height;
+push argument 3
+pop static 3
+// do Display.resize();
+call Display.resize 0
+pop temp 0
+// return;
+push constant 0
+return
+function Display.setDigitSize 0
+// let digitWidth = width;
+push argument 0
+pop static 4
+// let digitHeight = height;
+push argument 1
+pop static 5
+// let lineThickness = thickness;
+push argument 2
+pop static 6
+// let digitSpacing = spacing;
+push argument 3
+pop static 7
+// do Display.resize();
+call Display.resize 0
+pop temp 0
+// return;
+push constant 0
+return
+function Display.setMargin 0
+// let displayMargin = margin;
+push argument 0
+pop static 8
+// do Display.resize();
+call Display.resize 0
+pop temp 0
+// return;
+push constant 0
+return
+function Display.clear 0
+// do Screen.setColor(0);
+push constant 0
+call Screen.setColor 1
+pop temp 0
+// do Screen.drawRectangle(
+push static 1
+push static 0
+push static 9
+push static 10
+call Screen.drawRectangle 4
+pop temp 0
+// return;
+push constant 0
+return
+function Display.displayDecimal32 0
+// let value = String.new(13);
+push constant 13
+call String.new 1
+pop static 19
+// do d.format(value);
+push argument 0
+push static 19
+call Decimal32.format 2
+pop temp 0
+// let len = value.length();
+push static 19
+call String.length 1
+pop static 16
+// let step = digitWidth + digitSpacing;
+push static 4
+push static 7
+add
+pop static 18
+// let x = displayRight - displayMargin - (len * step);
+push static 9
+push static 8
+sub
+push static 16
+push static 18
+call Math.multiply 2
+sub
+pop static 17
+// do Display.clear();
+call Display.clear 0
+pop temp 0
+// let i = 0;
+push constant 0
+pop static 15
+// while (i < len) {
+label Display.L0
+push static 15
+push static 16
+lt
+not
+if-goto Display.L1
+// let c = value.charAt(i);
+push static 19
+push static 15
+call String.charAt 2
+pop static 14
+// if (x < 0) {
+push static 17
+push constant 0
+lt
+if-goto Display.L2
+goto Display.L3
+label Display.L2
+goto Display.L4
+label Display.L3
+// do Display.displayChar(c, x);
+push static 14
+push static 17
+call Display.displayChar 2
+pop temp 0
+label Display.L4
+// let x = x + step;
+push static 17
+push static 18
+add
+pop static 17
+// inc i;
+push static 15
+push constant 1
+add
+pop static 15
+goto Display.L0
+label Display.L1
+// do value.dispose();
+push static 19
+call String.dispose 1
+pop temp 0
+// return;
+push constant 0
+return
+function Display.displayChar 0
+// let segments = Display.getDisplaySegments(c);
+push argument 0
+call Display.getDisplaySegments 1
+pop static 20
+// let right = x + digitWidth;
+push argument 1
+push static 4
+add
+pop static 21
+// do Screen.setColor(1);
+push constant 1
+call Screen.setColor 1
+pop temp 0
+// if (segments & 128) {
+push static 20
+push constant 128
+and
+if-goto Display.L5
+goto Display.L6
+label Display.L5
+// do Screen.drawRectangle(
+push argument 1
+push static 11
+push static 21
+push static 11
+push static 6
+add
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L6
+// if (segments & 64) {
+push static 20
+push constant 64
+and
+if-goto Display.L7
+goto Display.L8
+label Display.L7
+// do Screen.drawRectangle(
+push argument 1
+push static 11
+push argument 1
+push static 6
+add
+push static 12
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L8
+// if (segments & 32) {
+push static 20
+push constant 32
+and
+if-goto Display.L9
+goto Display.L10
+label Display.L9
+// do Screen.drawRectangle(
+push static 21
+push static 6
+sub
+push static 11
+push static 21
+push static 12
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L10
+// if (segments & 16) {
+push static 20
+push constant 16
+and
+if-goto Display.L11
+goto Display.L12
+label Display.L11
+// do Screen.drawRectangle(
+push argument 1
+push static 12
+push static 6
+sub
+push static 21
+push static 12
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L12
+// if (segments & 8) {
+push static 20
+push constant 8
+and
+if-goto Display.L13
+goto Display.L14
+label Display.L13
+// do Screen.drawRectangle(
+push argument 1
+push static 12
+push argument 1
+push static 6
+add
+push static 13
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L14
+// if (segments & 4) {
+push static 20
+push constant 4
+and
+if-goto Display.L15
+goto Display.L16
+label Display.L15
+// do Screen.drawRectangle(
+push static 21
+push static 6
+sub
+push static 12
+push static 21
+push static 13
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L16
+// if (segments & 2) {
+push static 20
+push constant 2
+and
+if-goto Display.L17
+goto Display.L18
+label Display.L17
+// do Screen.drawRectangle(
+push argument 1
+push static 13
+push static 6
+sub
+push static 21
+push static 13
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L18
+// if (segments & 1) {
+push static 20
+push constant 1
+and
+if-goto Display.L19
+goto Display.L20
+label Display.L19
+// do Screen.drawRectangle(
+push static 21
+push static 6
+sub
+push static 13
+push static 6
+sub
+push static 21
+push static 13
+call Screen.drawRectangle 4
+pop temp 0
+label Display.L20
+// return;
+push constant 0
+return
+function Display.resize 0
+// let displayRight = displayLeft + displayWidth;
+push static 1
+push static 2
+add
+pop static 9
+// let displayBottom = displayTop + displayHeight;
+push static 0
+push static 3
+add
+pop static 10
+// let digitTop = displayTop + displayMargin;
+push static 0
+push static 8
+add
+pop static 11
+// let digitMiddle = digitTop + (displayHeight / 2);
+push static 11
+push static 3
+push constant 2
+call Math.divide 2
+add
+pop static 12
+// let digitBottom = digitTop + digitHeight;
+push static 11
+push static 5
+add
+pop static 13
+// return;
+push constant 0
+return
+function Display.getDisplaySegments 0
+// if (c = 48) {
+push argument 0
+push constant 48
+eq
+if-goto Display.L21
+goto Display.L22
+label Display.L21
+// return 238;
+push constant 238
+return
+label Display.L22
+// if (c = 49) {
+push argument 0
+push constant 49
+eq
+if-goto Display.L23
+goto Display.L24
+label Display.L23
+// return 36;
+push constant 36
+return
+label Display.L24
+// if (c = 50) {
+push argument 0
+push constant 50
+eq
+if-goto Display.L25
+goto Display.L26
+label Display.L25
+// return 186;
+push constant 186
+return
+label Display.L26
+// if (c = 51) {
+push argument 0
+push constant 51
+eq
+if-goto Display.L27
+goto Display.L28
+label Display.L27
+// return 182;
+push constant 182
+return
+label Display.L28
+// if (c = 52) {
+push argument 0
+push constant 52
+eq
+if-goto Display.L29
+goto Display.L30
+label Display.L29
+// return 116;
+push constant 116
+return
+label Display.L30
+// if (c = 53) {
+push argument 0
+push constant 53
+eq
+if-goto Display.L31
+goto Display.L32
+label Display.L31
+// return 214;
+push constant 214
+return
+label Display.L32
+// if (c = 54) {
+push argument 0
+push constant 54
+eq
+if-goto Display.L33
+goto Display.L34
+label Display.L33
+// return 222;
+push constant 222
+return
+label Display.L34
+// if (c = 55) {
+push argument 0
+push constant 55
+eq
+if-goto Display.L35
+goto Display.L36
+label Display.L35
+// return 164;
+push constant 164
+return
+label Display.L36
+// if (c = 56) {
+push argument 0
+push constant 56
+eq
+if-goto Display.L37
+goto Display.L38
+label Display.L37
+// return 254;
+push constant 254
+return
+label Display.L38
+// if (c = 57) {
+push argument 0
+push constant 57
+eq
+if-goto Display.L39
+goto Display.L40
+label Display.L39
+// return 244;
+push constant 244
+return
+label Display.L40
+// if (c = 46) {
+push argument 0
+push constant 46
+eq
+if-goto Display.L41
+goto Display.L42
+label Display.L41
+// return 1;
+push constant 1
+return
+label Display.L42
+// if (c = 45) {
+push argument 0
+push constant 45
+eq
+if-goto Display.L43
+goto Display.L44
+label Display.L43
+// return 16;
+push constant 16
+return
+label Display.L44
+// if (c = 69) {
+push argument 0
+push constant 69
+eq
+if-goto Display.L45
+goto Display.L46
+label Display.L45
+// return 218;
+push constant 218
+return
+label Display.L46
+// return 255;
+push constant 255
+return

@@ -1,0 +1,125 @@
+function String.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+// if (maxLength > 0) {
+push argument 0
+push constant 0
+gt
+if-goto String.L0
+goto String.L1
+label String.L0
+// let array = Array.new(maxLength);
+push argument 0
+call Array.new 1
+pop this 1
+goto String.L2
+label String.L1
+// let array = 0;
+push constant 0
+pop this 1
+label String.L2
+// return this;
+push pointer 0
+return
+function String.dispose 0
+push argument 0
+pop pointer 0
+// if (array > 0) {
+push this 1
+push constant 0
+gt
+if-goto String.L3
+goto String.L4
+label String.L3
+// do array.dispose();
+push this 1
+call Array.dispose 1
+pop temp 0
+label String.L4
+// do Memory.deAlloc(this);
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+// return;
+push constant 0
+return
+function String.length 0
+push argument 0
+pop pointer 0
+// return length;
+push this 0
+return
+function String.clear 0
+push argument 0
+pop pointer 0
+// let length = 0;
+push constant 0
+pop this 0
+// return;
+push constant 0
+return
+function String.charAt 0
+push argument 0
+pop pointer 0
+// return array[j];
+push argument 1
+push this 1
+add
+pop pointer 1
+push that 0
+return
+function String.setCharAt 0
+push argument 0
+pop pointer 0
+// let array[j] = c;
+push this 1
+push argument 1
+add
+push argument 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return;
+push constant 0
+return
+function String.appendChar 0
+push argument 0
+pop pointer 0
+// let array[length] = c;
+push this 1
+push this 0
+add
+push argument 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let length = length + 1;
+push this 0
+push constant 1
+add
+pop this 0
+// return this;
+push pointer 0
+return
+function String.eraseLastChar 0
+push argument 0
+pop pointer 0
+// if (length > 0) {
+push this 0
+push constant 0
+gt
+if-goto String.L5
+goto String.L6
+label String.L5
+// let length = length - 1;
+push this 0
+push constant 1
+sub
+pop this 0
+label String.L6
+// return;
+push constant 0
+return

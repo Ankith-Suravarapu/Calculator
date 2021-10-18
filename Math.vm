@@ -1,0 +1,474 @@
+function Math.init 0
+// let roots = Array.new(16);
+push constant 16
+call Array.new 1
+pop static 0
+// let roots[0] = 1;
+push static 0
+push constant 0
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[1] = 2;
+push static 0
+push constant 1
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[2] = 4;
+push static 0
+push constant 2
+add
+push constant 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[3] = 8;
+push static 0
+push constant 3
+add
+push constant 8
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[4] = 16;
+push static 0
+push constant 4
+add
+push constant 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[5] = 32;
+push static 0
+push constant 5
+add
+push constant 32
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[6] = 64;
+push static 0
+push constant 6
+add
+push constant 64
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[7] = 128;
+push static 0
+push constant 7
+add
+push constant 128
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[8] = 256;
+push static 0
+push constant 8
+add
+push constant 256
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[9] = 512;
+push static 0
+push constant 9
+add
+push constant 512
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[10] = 1024;
+push static 0
+push constant 10
+add
+push constant 1024
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[11] = 2048;
+push static 0
+push constant 11
+add
+push constant 2048
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[12] = 4096;
+push static 0
+push constant 12
+add
+push constant 4096
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[13] = 8192;
+push static 0
+push constant 13
+add
+push constant 8192
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[14] = 16384;
+push static 0
+push constant 14
+add
+push constant 16384
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// let roots[15] = ~32767;
+push static 0
+push constant 15
+add
+push constant 32767
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+// return;
+push constant 0
+return
+function Math.multiply 0
+// if ((x = 0) | (y = 0)) {
+push argument 0
+push constant 0
+eq
+push argument 1
+push constant 0
+eq
+or
+if-goto Math.L0
+goto Math.L1
+label Math.L0
+// return 0;
+push constant 0
+return
+label Math.L1
+// let isNegative = false;
+push constant 0
+pop static 1
+// if (x < 0) {
+push argument 0
+push constant 0
+lt
+if-goto Math.L2
+goto Math.L3
+label Math.L2
+// let x = -x;
+push argument 0
+neg
+pop argument 0
+// if (y > 0) {
+push argument 1
+push constant 0
+gt
+if-goto Math.L4
+goto Math.L5
+label Math.L4
+// let isNegative = true;
+push constant 0
+not
+pop static 1
+goto Math.L6
+label Math.L5
+// let y = -y;
+push argument 1
+neg
+pop argument 1
+label Math.L6
+goto Math.L7
+label Math.L3
+// if (y < 0) {
+push argument 1
+push constant 0
+lt
+if-goto Math.L8
+goto Math.L9
+label Math.L8
+// let isNegative = true;
+push constant 0
+not
+pop static 1
+// let y = -y;
+push argument 1
+neg
+pop argument 1
+label Math.L9
+label Math.L7
+// let i = 1;
+push constant 1
+pop static 2
+// let z = 0;
+push constant 0
+pop static 3
+// while (x > 0) {
+label Math.L10
+push argument 0
+push constant 0
+gt
+not
+if-goto Math.L11
+// if ((x & i) > 0) {
+push argument 0
+push static 2
+and
+push constant 0
+gt
+if-goto Math.L12
+goto Math.L13
+label Math.L12
+// let z = z + y;
+push static 3
+push argument 1
+add
+pop static 3
+// let x = x - i;
+push argument 0
+push static 2
+sub
+pop argument 0
+label Math.L13
+// let y = y + y;
+push argument 1
+push argument 1
+add
+pop argument 1
+// let i = i + i;
+push static 2
+push static 2
+add
+pop static 2
+goto Math.L10
+label Math.L11
+// if (isNegative) {
+push static 1
+if-goto Math.L14
+goto Math.L15
+label Math.L14
+// let z = -z;
+push static 3
+neg
+pop static 3
+label Math.L15
+// return z;
+push static 3
+return
+function Math.divide 3
+// if ((x = 0) | (y = 0)) {
+push argument 0
+push constant 0
+eq
+push argument 1
+push constant 0
+eq
+or
+if-goto Math.L16
+goto Math.L17
+label Math.L16
+// return 0;
+push constant 0
+return
+label Math.L17
+// if (x < 0) {
+push argument 0
+push constant 0
+lt
+if-goto Math.L18
+goto Math.L19
+label Math.L18
+// let x = -x;
+push argument 0
+neg
+pop argument 0
+// if (y > 0) {
+push argument 1
+push constant 0
+gt
+if-goto Math.L20
+goto Math.L21
+label Math.L20
+// let isNegative = true;
+push constant 0
+not
+pop local 0
+goto Math.L22
+label Math.L21
+// let y = -y;
+push argument 1
+neg
+pop argument 1
+label Math.L22
+goto Math.L23
+label Math.L19
+// if (y < 0) {
+push argument 1
+push constant 0
+lt
+if-goto Math.L24
+goto Math.L25
+label Math.L24
+// let isNegative = true;
+push constant 0
+not
+pop local 0
+// let y = -y;
+push argument 1
+neg
+pop argument 1
+label Math.L25
+label Math.L23
+// if (y > x) {
+push argument 1
+push argument 0
+gt
+if-goto Math.L26
+goto Math.L27
+label Math.L26
+// return 0;
+push constant 0
+return
+label Math.L27
+// let yy = y + y;
+push argument 1
+push argument 1
+add
+pop local 2
+// if (yy < 0) {
+push local 2
+push constant 0
+lt
+if-goto Math.L28
+goto Math.L29
+label Math.L28
+// return 1;
+push constant 1
+return
+label Math.L29
+// let q = Math.divide(x, yy);
+push argument 0
+push local 2
+call Math.divide 2
+pop local 1
+// let q = q + q;
+push local 1
+push local 1
+add
+pop local 1
+// if ((x - Math.multiply(q, y)) < y) {
+push argument 0
+push local 1
+push argument 1
+call Math.multiply 2
+sub
+push argument 1
+lt
+if-goto Math.L30
+goto Math.L31
+label Math.L30
+// if (isNegative) {
+push local 0
+if-goto Math.L32
+goto Math.L33
+label Math.L32
+// return -q;
+push local 1
+neg
+return
+label Math.L33
+// return q;
+push local 1
+return
+goto Math.L34
+label Math.L31
+// if (isNegative) {
+push local 0
+if-goto Math.L35
+goto Math.L36
+label Math.L35
+// return -(q + 1);
+push local 1
+push constant 1
+add
+neg
+return
+label Math.L36
+// return q + 1;
+push local 1
+push constant 1
+add
+return
+label Math.L34
+function Math.sqrt 0
+// let j = 8;
+push constant 8
+pop static 5
+// while (j > 0) {
+label Math.L37
+push static 5
+push constant 0
+gt
+not
+if-goto Math.L38
+// let j = j - 1;
+push static 5
+push constant 1
+sub
+pop static 5
+// let z = y + roots[j];
+push static 4
+push static 5
+push static 0
+add
+pop pointer 1
+push that 0
+add
+pop static 6
+// let zz = Math.multiply(z, z);
+push static 6
+push static 6
+call Math.multiply 2
+pop static 7
+// if ((zz > 0) & (~(zz > x))) {
+push static 7
+push constant 0
+gt
+push static 7
+push argument 0
+gt
+not
+and
+if-goto Math.L39
+goto Math.L40
+label Math.L39
+// let y = z;
+push static 6
+pop static 4
+label Math.L40
+goto Math.L37
+label Math.L38
+// return y;
+push static 4
+return
